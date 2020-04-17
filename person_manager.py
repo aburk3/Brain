@@ -16,7 +16,7 @@ load_dotenv()
 
 class Person_Manager:
     def __init__(self):
-        print("initialize statement")
+        print("--Person Initializer")
         person = self.get_name()
         self.determine_name_format(person)
 

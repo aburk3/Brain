@@ -9,6 +9,7 @@ from IPython import embed
 import mysql.connector
 import sys
 import os
+import logging
 
 
 from dotenv import load_dotenv
@@ -17,6 +18,8 @@ load_dotenv()
 
 class Brain_Manager:
     def __init__(self):
+        logging.basicConfig(filename='messages.log', level=logging.DEBUG)
+        logging.debug('This message should go to the log file.')
         self.USER = os.getenv("USER")
         self.PASSWORD = os.getenv("PASSWORD")
         self.state = 'learning'
