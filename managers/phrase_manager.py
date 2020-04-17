@@ -8,7 +8,7 @@ import mysql.connector
 import grammar_format
 
 from dotenv import load_dotenv
-from word_manager import Word_Manager
+from managers.word_manager import Word_Manager
 
 import re
 load_dotenv()

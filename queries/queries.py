@@ -140,7 +140,7 @@ def update_interaction(word_id, value_string):
 def last_interaction():
     return f"""
         SELECT *
-        FROM persons
+        FROM words
         ORDER BY last_interaction DESC
         LIMIT 1;
     """

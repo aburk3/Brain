@@ -5,20 +5,19 @@ import queries
 from IPython import embed
 import mysql.connector
 
-from word_manager import Word_Manager
-from phrase_manager import Phrase_Manager
-from person import Person
-from dictionary_builder import Dictionary_Builder
+from managers.word_manager import Word_Manager
+from managers.phrase_manager import Phrase_Manager
+from models.person import Person
+from utils.dictionary_builder import Dictionary_Builder
+import mysql.connector
 
 from dotenv import load_dotenv
-load_dotenv()
+import logging
 
 
 class Person_Manager:
     def __init__(self):
         print("--Person Initializer")
-        person = self.get_name()
-        self.determine_name_format(person)
 
     def get_name(self):
         print("--Getting user name!--")
@@ -77,19 +76,6 @@ class Person_Manager:
         list_result = [list(i) for i in result]
 
         person = list_result[0]
-
-        self.create_person(person)
-
-        user_input = input(
-            f"Hello! Is this {self.person.first_name} {self.person.last_name}? ")
-
-        if Word_Manager.is_confirmation(user_input) and Phrase_Manager.is_confirmation(user_input):
-            self.update_latest_interaction(self.person)
-            self.person = person
-            return True
-        else:
-            print("Call to check_for_person - 2")
-            self.check_for_person()
 
     def create_person(self, person):
         self.person = self.create_person_dict(person)
@@ -214,11 +200,6 @@ class Person_Manager:
         person = list_result[0]
         self.create_person(person)
 
-    def establish_new_connection(self):
-        connection = connection_handler.establish_connection()
-        self.cnx = connection[0]
-        self.cursor = connection[1]
-
     def check_exists_result(self, result):
         result_list = [list(i) for i in result]
 
@@ -226,6 +207,15 @@ class Person_Manager:
             return True
         else:
             return False
+
+    def establish_new_connection(self):
+        logging.info(f'Attempting to establish a new connection')
+        try:
+            connection = connection_handler.establish_connection()
+            self.cnx = connection[0]
+            self.cursor = connection[1]
+        except Exception as e:
+            logging.debug(f'Failed to establish connection: {e}')
 
     @staticmethod
     def update_latest_interaction_s(person):

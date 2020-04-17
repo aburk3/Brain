@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 import connection_handler
 # from word_manager import Word_Manager
-from phrase_manager import Phrase_Manager
-from person_manager import Person_Manager
-import queries
+from managers.phrase_manager import Phrase_Manager
+from managers.person_manager import Person_Manager
+from managers import chat_manager
+from queries import queries
 
 from IPython import embed
 import mysql.connector
 import sys
 import os
 import logging
-
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,9 +22,6 @@ class Brain_Manager:
         logging.debug('This message should go to the log file.')
         self.USER = os.getenv("USER")
         self.PASSWORD = os.getenv("PASSWORD")
-        self.state = 'learning'
-        self.check_for_person()
-        self.determine_response()
 
     def establish_new_connection(self):
         connection = connection_handler.establish_connection()
@@ -77,4 +74,11 @@ class Brain_Manager:
         self.get_user_input()
 
 
-Brain_Manager()
+if __name__ == '__main__':
+    brain = Brain_Manager()
+    person_manager = Person_Manager()
+
+    given_name = chat_manager.ask_who()
+    person_last_interaction = person_manager.check_last_interaction()
+
+    # full_name = chat_manager.ask_full_name()

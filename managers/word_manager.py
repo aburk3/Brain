@@ -5,8 +5,8 @@ import connection_handler
 from IPython import embed
 import mysql.connector
 from PyDictionary import PyDictionary
-from dictionary_builder import Dictionary_Builder
-from word import Word
+from utils.dictionary_builder import Dictionary_Builder
+from models.word import Word
 
 
 from dotenv import load_dotenv
