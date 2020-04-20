@@ -22,9 +22,6 @@ class Phrase_Manager:
         result = lower_phrase.find("?")
         self.new_phrase = self.remove_bad_chars(lower_phrase)
         self.parsed_phrase = self.new_phrase.split()
-        # self.determine_if_possessive()
-        # self.save_new_phrase(phrase)
-        # self.check_for_assigning_attribute()
 
         if lower_phrase == 'teach':
             self.teach_phrase()
