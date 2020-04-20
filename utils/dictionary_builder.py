@@ -37,7 +37,6 @@ class Dictionary_Builder:
         self.dictionary = {}
         for index, attribute in enumerate(self.attributes):
             self.dictionary[attribute] = values[index]
-        embed()
 
     def get_unknowns(self):
         new_list = [k for k, v in self.dictionary.items(
