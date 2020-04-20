@@ -5,6 +5,7 @@ from managers.phrase_manager import Phrase_Manager
 from managers.person_manager import Person_Manager
 from managers import chat_manager
 from queries import queries
+from utils import custom_logging
 
 from IPython import embed
 import mysql.connector
@@ -18,10 +19,9 @@ load_dotenv()
 
 class Brain_Manager:
     def __init__(self):
-        logging.basicConfig(filename='messages.log', level=logging.DEBUG)
-        logging.debug('This message should go to the log file.')
         self.USER = os.getenv("USER")
         self.PASSWORD = os.getenv("PASSWORD")
+        self.LOGGER = custom_logging.setup_custom_logger("Manager")
 
     def establish_new_connection(self):
         connection = connection_handler.establish_connection()

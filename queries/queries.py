@@ -168,7 +168,7 @@ def get_object_attributes(object_id):
     return f"""
         SELECT attributes
         FROM objects
-        WHERE object_id = object_id;
+        WHERE id = {object_id};
     """
 
 

@@ -1,42 +1,43 @@
 #!/usr/bin/env python3
-import queries
+from queries import queries
 import connection_handler
 
 from IPython import embed
 import mysql.connector
 
-import logging
+from utils import custom_logging
 
 
 class Dictionary_Builder:
     def __init__(self, object_values):
         self.object_values = object_values
-        # self.build_dictionary()
-        # self.get_unknowns()
+        self.LOGGER = custom_logging.setup_custom_logger("Dictionary Builder")
+        self.LOGGER.info(f'Executing query to retrieve object attributes.')
+
+    def determine_object_type(self):
+        self.object_type = self.object_values[7]
 
     def get_object_attributes(self):
-        object_id = self.object_values[7]
         self.establish_new_connection()
 
-        logging.info(f'Executing query to retrieve object attributes.')
-        self.cursor.execute(queries.get_object_attributes())
+        self.LOGGER.info(f'Executing query to retrieve object attributes.')
+        self.cursor.execute(queries.get_object_attributes(self.object_type))
 
         try:
             result = self.cursor.fetchall()
         except Exception as e:
-            print("Exception has occured 50: " + str(e))
-            logging.debug(f'Failed to execute/fetchall from query: {e}')
+            self.LOGGER.debug(f'Failed to execute/fetchall from query: {e}')
 
         list_result = [list(i) for i in result]
-        person = list_result[0]
-        logging.info(f'Last interaction: {person}')
+        self.attributes = list_result[0][0].split(',')
+        self.LOGGER.info(f'Object attributes: {self.attributes}')
 
     def build_dictionary(self):
-        attributes = self.object_values[-1].split(',')
+        values = self.object_values[-1].split(',')
         self.dictionary = {}
-        values = self.object_values[3].split(',')
-        for index, attribute in enumerate(attributes):
+        for index, attribute in enumerate(self.attributes):
             self.dictionary[attribute] = values[index]
+        embed()
 
     def get_unknowns(self):
         new_list = [k for k, v in self.dictionary.items(
@@ -44,10 +45,10 @@ class Dictionary_Builder:
         self.dictionary["unknowns"] = new_list
 
     def establish_new_connection(self):
-        logging.info(f'Attempting to establish a new connection')
+        self.LOGGER.info(f'Attempting to establish a new connection')
         try:
             connection = connection_handler.establish_connection()
             self.cnx = connection[0]
             self.cursor = connection[1]
         except Exception as e:
-            logging.debug(f'Failed to establish connection: {e}')
+            self.LOGGER.debug(f'Failed to establish connection: {e}')

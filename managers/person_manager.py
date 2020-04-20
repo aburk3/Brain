@@ -12,12 +12,13 @@ from utils.dictionary_builder import Dictionary_Builder
 import mysql.connector
 
 from dotenv import load_dotenv
-import logging
+from utils import custom_logging
 
 
 class Person_Manager:
     def __init__(self):
         print("--Person Initializer")
+        self.LOGGER = custom_logging.setup_custom_logger("Person Manager")
 
     def get_name(self):
         print("--Getting user name!--")
@@ -68,18 +69,18 @@ class Person_Manager:
     def check_last_interaction(self):
         self.establish_new_connection()
 
-        logging.info(f'Executing query to retrieve latest interaction')
+        self.LOGGER.info(f'Executing query to retrieve latest interaction')
         self.cursor.execute(queries.last_interaction())
 
         try:
             result = self.cursor.fetchall()
         except Exception as e:
             print("Exception has occured 50: " + str(e))
-            logging.debug(f'Failed to execute/fetchall from query: {e}')
+            self.LOGGER.debug(f'Failed to execute/fetchall from query: {e}')
 
         list_result = [list(i) for i in result]
         person = list_result[0]
-        logging.info(f'Last interaction: {person}')
+        self.LOGGER.info(f'Last interaction values: {person}')
 
         return person
 
@@ -106,8 +107,9 @@ class Person_Manager:
     def create_person_dict(self, person):
         print("--Creating person dict--")
         dictionary_builder = Dictionary_Builder(person)
+        dictionary_builder.determine_object_type()
         dictionary_builder.get_object_attributes()
-        dictionary_builder.build_person()
+        dictionary_builder.build_dictionary()
 
         return dictionary_builder.dictionary
 
@@ -218,13 +220,13 @@ class Person_Manager:
             return False
 
     def establish_new_connection(self):
-        logging.info(f'Attempting to establish a new connection')
+        self.LOGGER.info(f'Attempting to establish a new connection')
         try:
             connection = connection_handler.establish_connection()
             self.cnx = connection[0]
             self.cursor = connection[1]
         except Exception as e:
-            logging.debug(f'Failed to establish connection: {e}')
+            self.LOGGER.debug(f'Failed to establish connection: {e}')
 
     @staticmethod
     def update_latest_interaction_s(person):
