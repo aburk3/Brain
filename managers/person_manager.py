@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import connection_handler
-import queries
+from queries import queries
 
 from IPython import embed
 import mysql.connector
@@ -66,16 +66,22 @@ class Person_Manager:
             self.new_person(person)
 
     def check_last_interaction(self):
-        print("--Checking my last interaction!--")
         self.establish_new_connection()
+
+        logging.info(f'Executing query to retrieve latest interaction')
+        self.cursor.execute(queries.last_interaction())
+
         try:
-            self.cursor.execute(queries.last_interaction())
+            result = self.cursor.fetchall()
         except Exception as e:
             print("Exception has occured 50: " + str(e))
-        result = self.cursor.fetchall()
-        list_result = [list(i) for i in result]
+            logging.debug(f'Failed to execute/fetchall from query: {e}')
 
+        list_result = [list(i) for i in result]
         person = list_result[0]
+        logging.info(f'Last interaction: {person}')
+
+        return person
 
     def create_person(self, person):
         self.person = self.create_person_dict(person)
@@ -100,6 +106,9 @@ class Person_Manager:
     def create_person_dict(self, person):
         print("--Creating person dict--")
         dictionary_builder = Dictionary_Builder(person)
+        dictionary_builder.get_object_attributes()
+        dictionary_builder.build_person()
+
         return dictionary_builder.dictionary
 
     def refresh_person(self):

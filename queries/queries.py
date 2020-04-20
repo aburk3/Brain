@@ -137,10 +137,20 @@ def update_interaction(word_id, value_string):
     """
 
 
+# def last_interaction():
+#     return f"""
+#         SELECT *
+#         FROM words
+#         WHERE sub_class = 13
+#         ORDER BY last_interaction DESC
+#         LIMIT 1;
+#     """
+
 def last_interaction():
     return f"""
         SELECT *
         FROM words
+        WHERE sub_class = 13
         ORDER BY last_interaction DESC
         LIMIT 1;
     """
@@ -153,6 +163,13 @@ def last_interaction():
 #         WHERE `TABLE_SCHEMA`='brain'
 #             AND `TABLE_NAME`='{table}';
 #     """
+
+def get_object_attributes(object_id):
+    return f"""
+        SELECT attributes
+        FROM objects
+        WHERE object_id = object_id;
+    """
 
 
 def get_attributes(table):

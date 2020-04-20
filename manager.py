@@ -79,6 +79,8 @@ if __name__ == '__main__':
     person_manager = Person_Manager()
 
     given_name = chat_manager.ask_who()
-    person_last_interaction = person_manager.check_last_interaction()
 
-    # full_name = chat_manager.ask_full_name()
+    last_interaction = person_manager.check_last_interaction()
+
+    person = person_manager.create_person_dict(last_interaction)
+    embed()
