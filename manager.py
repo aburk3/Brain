@@ -83,4 +83,3 @@ if __name__ == '__main__':
     last_interaction = person_manager.check_last_interaction()
 
     person = person_manager.create_person_dict(last_interaction)
-    embed()

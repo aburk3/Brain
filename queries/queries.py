@@ -68,15 +68,6 @@ def check_for_person(first_name, last_name):
         """
 
 
-# def check_for_person(first_name, last_name):
-#     return f"""
-#             SELECT *
-#             FROM persons
-#             WHERE first_name = '{first_name}'
-#             AND last_name = '{last_name}';
-#         """
-
-
 def person_by_id(person_id):
     return f"""
             SELECT first_name.id, first_name.word, last_name.word, first_name.details, object.object, object.attributes
@@ -89,13 +80,6 @@ def person_by_id(person_id):
         """
 
 
-# def check_for_person_first(first_name):
-#     return f"""
-#             SELECT *
-#             FROM persons
-#             WHERE first_name = '{first_name}'
-#             ORDER BY frequency DESC;
-#         """
 def check_for_person_first(first_name):
     return f"""
             SELECT first_name.id, first_name.word, last_name.word, first_name.details, object.object, object.attributes
@@ -137,15 +121,6 @@ def update_interaction(word_id, value_string):
     """
 
 
-# def last_interaction():
-#     return f"""
-#         SELECT *
-#         FROM words
-#         WHERE sub_class = 13
-#         ORDER BY last_interaction DESC
-#         LIMIT 1;
-#     """
-
 def last_interaction():
     return f"""
         SELECT *
@@ -156,27 +131,11 @@ def last_interaction():
     """
 
 
-# def get_attributes(table):
-#     return f"""
-#         SELECT `COLUMN_NAME`
-#         FROM `INFORMATION_SCHEMA`.`COLUMNS`
-#         WHERE `TABLE_SCHEMA`='brain'
-#             AND `TABLE_NAME`='{table}';
-#     """
-
 def get_object_attributes(object_id):
     return f"""
         SELECT attributes
         FROM objects
         WHERE id = {object_id};
-    """
-
-
-def get_attributes(table):
-    return f"""
-        SELECT *
-        FROM {table}
-        LIMIT 1;
     """
 
 

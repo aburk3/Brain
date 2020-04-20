@@ -42,8 +42,6 @@ class Phrase_Manager:
             question_format += grammar_format.assign_part_of_speech(
                 word_manager.word)
 
-        embed()
-
     def check_for_assigning_attribute(self):
         if self.possessive and self.check_for_attribute():
             self.assign_attribute()
