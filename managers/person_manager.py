@@ -228,6 +228,36 @@ class Person_Manager:
         except Exception as e:
             self.LOGGER.debug(f'Failed to establish connection: {e}')
 
+    def compare_person(self, last_interaction_person, given_name):
+        last_interaction_first_n = last_interaction_person['first_name']
+        last_interaction_last_n = last_interaction_person['last_name']
+
+
+        # We need to find out if the 'given name' is first and last
+        # or only first (deal with only last in future maybe)
+        if len(given_name) == 1:
+            first_name_given = given_name[0]
+
+            return self.check_for_match_first(first_name_given, last_interaction_first_n)
+        elif len(given_name) == 2:
+            first_name_given = given_name[0]
+            last_name_given = given_name[1]
+
+            return self.check_for_match_first_last(first_name_given, last_name_given, last_interaction_first_n, last_interaction_last_n)
+
+    def check_for_match_first(self, first_name_given, last_interaction_first_n):
+        if first_name_given == last_interaction_first_n:
+            return True
+        else:
+            return False
+
+    def check_for_match_first_last(self, first_name_given, last_name_given, last_interaction_first_n, last_interaction_last_n):
+        if (first_name_given == last_interaction_first_n and last_name_given == last_interaction_last_n):
+            return True
+        else:
+            return False
+
+
     @staticmethod
     def update_latest_interaction_s(person):
         connection = connection_handler.establish_connection()

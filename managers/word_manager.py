@@ -14,12 +14,8 @@ load_dotenv()
 
 
 class Word_Manager:
-    def __init__(self, word):
+    def __init__(self):
         self.dictionary = PyDictionary()
-        if word == 'teach':
-            self.teach_word()
-        else:
-            self.get_word(word)
 
     def teach_word(self):
         user_input = input(
@@ -80,17 +76,16 @@ class Word_Manager:
         self.cnx = connection[0]
         self.cursor = connection[1]
 
-    @staticmethod
-    def is_confirmation(word_or_phrase):
-        Word_Manager.establish_new_connection()
+    def is_confirmation(self, word_or_phrase):
+        self.establish_new_connection()
 
         try:
-            cursor.execute(queries.check_for_confirmation(word_or_phrase))
+            self.cursor.execute(queries.check_for_confirmation(word_or_phrase))
         except Exception as e:
             print("Exception has occured 93: " + str(e))
-        result = cursor.fetchall()
+        result = self.cursor.fetchall()
 
-        if Word_Manager.confirmation_exists(result):
+        if self.confirmation_exists(result):
             return True
         else:
             return False
