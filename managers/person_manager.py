@@ -9,9 +9,7 @@ from managers.word_manager import Word_Manager
 from managers.phrase_manager import Phrase_Manager
 from models.person import Person
 from utils.dictionary_builder import Dictionary_Builder
-import mysql.connector
 
-from dotenv import load_dotenv
 from utils import custom_logging
 
 

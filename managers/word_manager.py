@@ -9,10 +9,6 @@ from utils.dictionary_builder import Dictionary_Builder
 from models.word import Word
 
 
-from dotenv import load_dotenv
-load_dotenv()
-
-
 class Word_Manager:
     def __init__(self):
         self.dictionary = PyDictionary()
